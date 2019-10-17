@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
-from urllib import urlencode
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.db.models import ForeignKey
@@ -69,18 +69,18 @@ def check_n_set_class_attributes(klass, required, defaults, exclude=()):
 
     #check required attributes are set
     for key in required:
-        if key not in vars(klass).keys():
+        if key not in list(vars(klass).keys()):
             raise WhamImproperlyConfigured('WhamMeta must include the %s attribute' % key)
 
     #check for mistyped WhamMeta attributes
-    for key in vars(klass).keys():
+    for key in list(vars(klass).keys()):
         if not key.startswith('__'):
-            if (key not in defaults.keys() and
+            if (key not in list(defaults.keys()) and
                     key not in exclude and
                     key not in required):
                 raise WhamImproperlyConfigured('%s is not a valid WhamMeta attribute' % key)
 
-    for key, value in deepcopy(defaults).iteritems():
+    for key, value in deepcopy(defaults).items():
         if not hasattr(klass, key):
             setattr(klass, key, value)
 
@@ -167,7 +167,7 @@ class WhamManager(models.Manager):
             full_url = "%s?%s" % (url, urlencode(final_params))
         else:
             full_url = url
-        print full_url
+        print(full_url)
 
         if not fetch_live:
             if (full_url, depth) in settings._wham_http_cache:
@@ -228,7 +228,7 @@ class WhamManager(models.Manager):
 
         try:
             instance = self.model.objects.get(pk=kwargs[pk_dict_key], wham_use_cache=True)
-            for attr, value in kwargs.iteritems():
+            for attr, value in kwargs.items():
                 setattr(instance, attr, value)
                 instance.save()
         except ObjectDoesNotExist:
@@ -327,7 +327,7 @@ class WhamManager(models.Manager):
         # kwarg=value to kwarg__iexact=value
 
 
-        for key, value in kwargs.iteritems():
+        for key, value in kwargs.items():
             if key not in ['pk', 'id', 'wham_fetch_live', 'wham_use_cache', 'wham_depth']:
                 kwargs[key + '__iexact'] = kwargs.pop(key)
 

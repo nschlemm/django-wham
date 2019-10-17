@@ -1,10 +1,10 @@
-from urllib import urlencode
-import urllib2
+from urllib.parse import urlencode
+import urllib.request, urllib.error, urllib.parse
 from wham.httmock import urlmatch
 from os.path import join
 from os import listdir
 from os.path import isfile, join
-from urlparse import urlparse, parse_qs, parse_qsl
+from urllib.parse import urlparse, parse_qs, parse_qsl
 
 
 # def mock_function_builder(scheme, netloc, url_name, settings, responses_dir):
@@ -28,7 +28,7 @@ def build_httmock_function(scheme, netloc, url_path, response_content, method='G
 
 
 def build_httmock_functions(mock_response_dir):
-    print 'building mock functions'
+    print('building mock functions')
     functions = []
     for filename in listdir(mock_response_dir):
         filepath = join(mock_response_dir,filename)
@@ -39,14 +39,14 @@ def build_httmock_functions(mock_response_dir):
                     filename = filename[len(_method):]
                     method = _method
 
-            url = urllib2.unquote(filename)
+            url = urllib.parse.unquote(filename)
 
             parts = urlparse(url)
             params = {}
             if parts.query:
-                print parts.query
+                print(parts.query)
                 params = dict(parse_qsl(parts.query))
-                print params
+                print(params)
             with open(filepath) as f:
                 content = f.read()
                 functions.append(build_httmock_function(
@@ -57,7 +57,7 @@ def build_httmock_functions(mock_response_dir):
 def make_mock_response_file(url, content, output_dir, method='GET', extra_params=None):
     if extra_params:
         url += '?' + urlencode(extra_params)
-    path = output_dir + method + urllib2.quote(url, safe='')
-    print path
+    path = output_dir + method + urllib.parse.quote(url, safe='')
+    print(path)
     with open(path, 'w') as f:
         f.write(content)

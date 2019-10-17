@@ -8,6 +8,6 @@ class TestCase(TestCase):
     def test_instagram(self):
 
         for post in InstagramTag.objects.get(id='pyconau').posts.all():
-            print post
+            print(post)
             # display(Image(post.image_url))
 

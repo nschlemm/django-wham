@@ -7,9 +7,9 @@ class TestCase(TestCase):
 
     def test_deezer(self):
         track = DeezerTrack.objects.get(id='3135556')
-        print track
+        print(track)
         track = DeezerTrack.objects.get(pk='3135556')
-        print track
+        print(track)
 
         # not currently working
         # track = DeezerTrack.objects.get(id='3135556') #we should definitely support id as well as pk

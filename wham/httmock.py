@@ -7,12 +7,12 @@ import requests
 from requests import structures
 import sys
 try:
-    import urlparse
+    import urllib.parse
 except ImportError:
     import urllib.parse as urlparse
 
 if sys.version_info >= (3, 0, 0):
-    basestring = str
+    str = str
 
 
 class Headers(object):
@@ -67,7 +67,7 @@ def urlmatch(scheme=None, netloc=None, path=None, method=None, params=None):
     def decorator(func):
         @wraps(func)
         def inner(self_or_url, url_or_request, *args, **kwargs):
-            if isinstance(self_or_url, urlparse.SplitResult):
+            if isinstance(self_or_url, urllib.parse.SplitResult):
                 url = self_or_url
                 request = url_or_request
             else:
@@ -84,9 +84,9 @@ def urlmatch(scheme=None, netloc=None, path=None, method=None, params=None):
             if method is not None and method.upper() != request.method:
                 return
             if params is not None:
-                if dict(urlparse.parse_qsl(url.query)) != params:
+                if dict(urllib.parse.parse_qsl(url.query)) != params:
                     return
-            print 'using mock response for path %s' % url.path
+            print('using mock response for path %s' % url.path)
             return func(self_or_url, url_or_request, *args, **kwargs)
         return inner
     return decorator
@@ -152,7 +152,7 @@ class HTTMock(object):
         requests.Session.send = self._real_session_send
 
     def intercept(self, request):
-        url = urlparse.urlsplit(request.url)
+        url = urllib.parse.urlsplit(request.url)
         res = first_of(self.handlers, url, request)
         if isinstance(res, requests.Response):
             return res
@@ -163,7 +163,7 @@ class HTTMock(object):
                             res.get('reason'),
                             res.get('elapsed', 0),
                             request)
-        elif isinstance(res, basestring):
+        elif isinstance(res, str):
             return response(content=res)
         elif res is None:
             return None

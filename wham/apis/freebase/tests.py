@@ -70,14 +70,14 @@ class TestCase(TestCase):
             '26fe7532-dc1e-45d1-bfcb-a7f83d4df98e',
         ]
         for id in ids:
-            print '===================================================='
+            print('====================================================')
             try:
                 artist = FreebaseMusicbrainzArtist.objects.get(pk=id)
-                print artist.name
-                print '---------------------------------------------------'
+                print(artist.name)
+                print('---------------------------------------------------')
                 if artist.origin_text:
-                    print artist.origin_text
+                    print(artist.origin_text)
                 if artist.place_of_birth:
-                    print artist.place_of_birth
+                    print(artist.place_of_birth)
             except HTTPError:
-                print 'could not find musicbrainz id'
+                print('could not find musicbrainz id')

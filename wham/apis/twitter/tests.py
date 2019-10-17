@@ -22,8 +22,8 @@ class TestCase(TestCase):
             user = TwitterUser.objects.get(pk='795649')
 
             tweet = Tweet.objects.get(pk=210462857140252672)
-            self.assertEquals(tweet.text, "Along with our new #Twitterbird, we've also updated our Display Guidelines: https://t.co/Ed4omjYs  ^JC")
-            self.assertEquals(tweet.retweet_count, 74)
+            self.assertEqual(tweet.text, "Along with our new #Twitterbird, we've also updated our Display Guidelines: https://t.co/Ed4omjYs  ^JC")
+            self.assertEqual(tweet.retweet_count, 74)
 
             tweets = user.tweets.all()
             self.assertEqual(tweets.count(), 35)

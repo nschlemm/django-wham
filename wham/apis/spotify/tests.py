@@ -17,7 +17,7 @@ class TestCase(TestCase):
 
         with HTTMock(*mock_functions):
             track = SpotifyTrack.objects.get(pk='0eGsygTp906u18L0Oimnem')
-            self.assertEquals(track.name, 'Mr. Brightside')
+            self.assertEqual(track.name, 'Mr. Brightside')
             tracks = SpotifyTrack.objects.all(wham_use_cache=True)
             self.assertEqual(tracks.count(), 1)
             artists = SpotifyArtist.objects.all(wham_use_cache=True)

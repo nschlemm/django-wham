@@ -22,7 +22,7 @@ class TestCase(TestCase):
 
         with HTTMock(*mock_functions):
             user = LastFmUser.objects.get(pk='CarpetSquare')
-            self.assertEquals(user.name, 'CarpetSquare')
+            self.assertEqual(user.name, 'CarpetSquare')
 
             artists = user.top_artists.all()
             top_artist = artists[0]
@@ -30,4 +30,4 @@ class TestCase(TestCase):
             top_artist_through = LastFmUserTopArtists.objects.get(user=user, artist=top_artist)
             self.assertEqual(top_artist_through.playcount, "224")
             for artist in artists:
-                print artist.mbid
+                print(artist.mbid)

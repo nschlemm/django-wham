@@ -71,10 +71,10 @@ class TestCase(TestCase):
             '26fe7532-dc1e-45d1-bfcb-a7f83d4df98e',
         ]
         for id in ids:
-            print '===================================================='
+            print('====================================================')
             try:
                 artist = MusicbrainzArtist.objects.get(pk=id)
-                print artist.name
-                print artist.countryU
+                print(artist.name)
+                print(artist.countryU)
             except HTTPError:
-                print 'could not find musicbrainz id'
+                print('could not find musicbrainz id')
